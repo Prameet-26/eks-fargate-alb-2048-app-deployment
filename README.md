@@ -86,7 +86,23 @@ Application is exposed using AWS ALB.
 
 ## Screenshots
 
-See screenshots folder.
+### EKS Cluster
+![Cluster](screenshots/01-cluster-created.png)
+
+### Fargate Profiles
+![Fargate](screenshots/02-fargate-profile.png)
+
+### Pods Running
+![Pods](screenshots/03-pods-running.png)
+
+### ALB Controller
+![ALB](screenshots/04-alb-controller.png)
+
+### Ingress
+![Ingress](screenshots/05-ingress-created.png)
+
+### Application
+![2048](screenshots/06-2048-app-running.png)
 
 ---
 
