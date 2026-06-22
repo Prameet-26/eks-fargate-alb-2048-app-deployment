@@ -1,55 +1,110 @@
-# eks-fargate-alb-2048-app-deployment
-Hands-on DevOps project: Amazon EKS, AWS Fargate, ALB Ingress Controller, Kubernetes, Helm, IAM, and application deployment.
 # Amazon EKS Fargate Deployment with AWS Load Balancer Controller
 
 ## Project Overview
 
-This project demonstrates deploying a Kubernetes application on Amazon EKS using AWS Fargate and exposing it through an AWS Application Load Balancer (ALB).
+This project demonstrates deployment of a containerized application on Amazon EKS using AWS Fargate and AWS Load Balancer Controller.
+
+The application deployed is the Kubernetes 2048 sample application exposed through an internet-facing Application Load Balancer (ALB).
+
+---
 
 ## Architecture
 
-User → AWS ALB → Kubernetes Ingress → Service → Deployment → Pods running on AWS Fargate
+User
+  |
+  v
+AWS ALB
+  |
+Ingress
+  |
+Service
+  |
+Deployment
+  |
+Pods on AWS Fargate
+
+---
 
 ## Technologies Used
 
-* Amazon EKS
-* AWS Fargate
-* Kubernetes
-* kubectl
-* eksctl
-* Helm
-* AWS Load Balancer Controller
-* IAM Roles for Service Accounts (IRSA)
+- AWS EKS
+- AWS Fargate
+- AWS IAM
+- Kubernetes
+- kubectl
+- eksctl
+- AWS Load Balancer Controller
+- Helm
 
-## EKS Cluster
+---
 
-![Cluster](screenshots/01-cluster-created.png)
+## Project Steps
 
-## Fargate Profiles
+### 1. Create EKS Cluster
 
-![Fargate](screenshots/02-fargate-profile.png)
+```bash
+eksctl create cluster \
+--name demo-cluster1 \
+--region us-east-1 \
+--fargate
+```
 
-## Fargate Nodes
+### 2. Create Fargate Profile
 
-![Nodes](screenshots/03-fargate-nodes.png)
+```bash
+eksctl create fargateprofile \
+--cluster demo-cluster1 \
+--region us-east-1 \
+--name alb-sample-app \
+--namespace game-2048
+```
 
-## AWS Load Balancer Controller
+### 3. Install AWS Load Balancer Controller
 
-![ALB](screenshots/04-alb-controller-running.png)
+Installed using Helm.
 
-## Ingress
+### 4. Deploy 2048 Application
 
-![Ingress](screenshots/05-ingress-created.png)
+```bash
+kubectl apply -f manifests/2048_full.yaml
+```
 
-## Application
+### 5. Verify Resources
 
-![Application](screenshots/06-2048-application.png)
+```bash
+kubectl get pods -A
+kubectl get ingress -n game-2048
+```
 
-## Learning Outcomes
+---
 
-* Amazon EKS Administration
-* AWS Fargate
-* Kubernetes Networking
-* ALB Ingress Configuration
-* IAM Roles for Service Accounts
-* Troubleshooting Kubernetes Workloads
+## Application Access
+
+Application is exposed using AWS ALB.
+
+---
+
+## Screenshots
+
+See screenshots folder.
+
+---
+
+## Repository Structure
+
+```text
+.
+├── README.md
+├── manifests
+│   └── 2048_full.yaml
+├── docs
+│   └── troubleshooting.md
+└── screenshots
+```
+
+---
+
+## Author
+
+Prameet Kumar
+DevOps Learning Project
